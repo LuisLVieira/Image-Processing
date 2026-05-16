@@ -384,7 +384,7 @@ class Videos:
         # Reseta o video toda vez que inicia a classe
         self.video_cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
 
-    def show_video(self):
+    def show_video(self, fps=30):
         """
         Mostra na tela o vídeo.
         """
@@ -399,12 +399,11 @@ class Videos:
             cv2.imshow("Video", frame)
             # Mostra o vídeo em 40 fps (25ms)
             # Interrompe o vídeo com a tecla q
-            if cv2.waitKey(25) & 0xFF == ord('q'):
+            if cv2.waitKey(1000//fps) & 0xFF == ord('q'):
                 break
         # Fecha o vídeo
         self.video_cap.release()
         cv2.destroyAllWindows()
-
 
     def save_video(
         self,
@@ -647,6 +646,7 @@ class Videos:
         """
         Mostra os valores das medidas pelo tempo
         """
+        os.makedirs(output_path, exist_ok=True)
         fig = plt.figure(figsize=(8,8))
         plt.title(f"{title} {self.video_name}")
         plt.xlabel("Quadros")
